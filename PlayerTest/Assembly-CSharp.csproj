@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scrips\IMovement.cs" />
     <Compile Include="Assets\Scrips\AttackMovementAI.cs" />
+    <Compile Include="Assets\Scrips\PatrolMovementAI.cs" />
     <Compile Include="Assets\Scrips\IEnemy.cs" />
     <Compile Include="Assets\Scrips\PlayerLocalMover.cs" />
     <Compile Include="Assets\Scrips\Enemy.cs" />
