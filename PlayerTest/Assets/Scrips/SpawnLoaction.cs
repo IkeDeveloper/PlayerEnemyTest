@@ -4,50 +4,98 @@ public class SpawnAtLocation : MonoBehaviour
 {
     public GameObject planePrefab;
     public GameObject playerPrefab;
-    public Transform spawnPoint;
-    public CameraFollow cameraFollow;
+    public GameObject wallPrefab;      // NEW: assign your wall prefab here
     public EnemyFactory enemyFactory;
 
-    void Start()
+    private void Start()
     {
+        // Spawn plane
+        GameObject plane = Instantiate(planePrefab);
+        plane.transform.position = new Vector3(0, 0, 0);
 
-        var cfg = GameConfig.Instance;
+        // color
+        plane.GetComponent<Renderer>().material.color = Color.yellow;
 
-        // Spawn the plane
-        GameObject plane = Instantiate(
-            planePrefab,
-            spawnPoint.position,
-            spawnPoint.rotation
-        );
+        // size (example)
+        plane.transform.localScale = new Vector3(10f, 1f, 10f);
 
-        plane.transform.localScale = new Vector3(
-            cfg.planeScale,
-            plane.transform.localScale.y,
-            cfg.planeScale
-        );
-        plane.GetComponent<Renderer>().material.color = cfg.planeColor;
+        // Build walls around plane
+        BuildWallsAroundPlane(plane);
 
-        // Spawn the player ON TOP of the plane
-        Vector3 playerPos = plane.transform.position + new Vector3(0, cfg.playerHeightOffset, 0);
-        GameObject player = Instantiate(playerPrefab, playerPos, Quaternion.identity);
+        // Spawn player
+        GameObject player = Instantiate(playerPrefab);
+        player.transform.position = new Vector3(0, 1, 0);
+        player.GetComponent<Renderer>().material.color = Color.green;
+        player.tag = "Player";
 
-        // Camera follows the player
-        if (cameraFollow != null)
-        {
-            cameraFollow.target = player.transform;
-        }
+        // Make camera follow player
+        Camera.main.GetComponent<CameraFollow>().target = player.transform;
 
-        for (int i = 0; i < 5; i++)
+        // Spawn enemies
+        for (int i = 0; i < 10; i++)
         {
             GameObject enemy = enemyFactory.CreateEnemy();
-            enemy.transform.position = new Vector3(
-            2 + i * 2,   // spread enemies out
-            1,
-            2
-            );
+            enemy.transform.position = new Vector3(2 + i * 2, 1, 2);
+
+            // INITIAL STATE
+            enemy.GetComponent<Enemy>().SetState(new IdleState());
         }
     }
-}
-            
-    
 
+    private void BuildWallsAroundPlane(GameObject plane)
+    {
+        Renderer r = plane.GetComponent<Renderer>();
+        Bounds b = r.bounds;
+
+        Vector3 pos = b.center;
+        float halfX = b.extents.x;
+        float halfZ = b.extents.z;
+
+        float wallHeight = 5f;
+        float wallThickness = 0.5f;
+
+        // LEFT WALL
+        GameObject left = Instantiate(
+            wallPrefab,
+            new Vector3(pos.x - halfX, wallHeight / 2f, pos.z),
+            Quaternion.identity
+        );
+        left.transform.localScale = new Vector3(wallThickness, wallHeight, b.size.z);
+        Color wallBlue = new Color(0.2f, 0.4f, 1f); // light neon blue
+        left.GetComponent<Renderer>().material.color = wallBlue;
+
+
+
+        // RIGHT WALL
+        GameObject right = Instantiate(
+            wallPrefab,
+            new Vector3(pos.x + halfX, wallHeight / 2f, pos.z),
+            Quaternion.identity
+        );
+        right.transform.localScale = new Vector3(wallThickness, wallHeight, b.size.z);
+       
+        right.GetComponent<Renderer>().material.color = wallBlue;
+
+
+        // FRONT WALL
+        GameObject front = Instantiate(
+            wallPrefab,
+            new Vector3(pos.x, wallHeight / 2f, pos.z + halfZ),
+            Quaternion.identity
+        );
+        front.transform.localScale = new Vector3(b.size.x, wallHeight, wallThickness);
+        front.GetComponent<Renderer>().material.color = wallBlue;
+
+        // BACK WALL
+        GameObject back = Instantiate(
+            wallPrefab,
+            new Vector3(pos.x, wallHeight / 2f, pos.z - halfZ),
+            Quaternion.identity
+        );
+        back.transform.localScale = new Vector3(b.size.x, wallHeight, wallThickness);
+        back.GetComponent<Renderer>().material.color = wallBlue;
+
+
+    }
+
+}

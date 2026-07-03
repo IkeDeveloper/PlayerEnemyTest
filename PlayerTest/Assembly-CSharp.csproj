@@ -49,17 +49,27 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.3.17f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scrips\IMovement.cs" />
+    <Compile Include="Assets\Scrips\AttackState.cs" />
+    <Compile Include="Assets\Scrips\PatrolState.cs" />
+    <Compile Include="Assets\Scrips\IMovementAI.cs" />
+    <Compile Include="Assets\Scrips\ParalysedState.cs" />
+    <Compile Include="Assets\Scrips\EnemyStateMachine.cs" />
+    <Compile Include="Assets\Scrips\IdleState.cs" />
+    <Compile Include="Assets\Scrips\ParalysedMovementAI.cs" />
     <Compile Include="Assets\Scrips\AttackMovementAI.cs" />
+    <Compile Include="Assets\Scrips\WanderMovementAI.cs" />
     <Compile Include="Assets\Scrips\PatrolMovementAI.cs" />
     <Compile Include="Assets\Scrips\IEnemy.cs" />
+    <Compile Include="Assets\Scrips\IdleMoveMentAI.cs" />
     <Compile Include="Assets\Scrips\PlayerLocalMover.cs" />
     <Compile Include="Assets\Scrips\Enemy.cs" />
     <Compile Include="Assets\Scrips\SpawnLoaction.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
+    <Compile Include="Assets\Scrips\IEnemyState.cs" />
     <Compile Include="Assets\Scrips\CameraFollow.cs" />
     <Compile Include="Assets\Scrips\Gameonfig.cs" />
     <Compile Include="Assets\Scrips\GameObjectFactory.cs" />
+    <Compile Include="Assets\Scrips\WanderState.cs" />
     <Compile Include="Assets\Scrips\NewEmptyCSharpScript.cs" />
     <Compile Include="Assets\Scrips\Clone.cs" />
     <Compile Include="Assets\Scrips\EnemyFactory.cs" />
